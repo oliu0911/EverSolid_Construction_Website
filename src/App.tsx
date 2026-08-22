@@ -8,6 +8,7 @@ import Work from './components/Work'
 import WhyChooseUs from './components/WhyChooseUs'
 import Gallery from './components/Gallery'
 import FooterCTA from './components/FooterCTA'
+import WhatsAppFab from './components/WhatsAppFab'
 
 function Page() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -23,6 +24,7 @@ function Page() {
         <Gallery />
         <FooterCTA />
       </main>
+      <WhatsAppFab />
     </div>
   )
 }
