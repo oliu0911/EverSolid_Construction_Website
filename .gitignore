@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output (Cloudflare Pages rebuilds via `npm run build`)
+dist/
+dist-ssr/
+
+# Local tooling configs / caches (keep locally, exclude from git)
+.claude/
+.impeccable/
+.pi/
+*.local.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

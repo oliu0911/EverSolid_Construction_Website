@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    @apply bg-paper text-ink antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  ::selection {
+    background: theme('colors.rebar.DEFAULT');
+    color: theme('colors.paper');
+  }
+  /* keyboard focus: visible rebar ring, consistent across the ruling world */
+  :focus-visible {
+    outline: 2px solid theme('colors.rebar.DEFAULT');
+    outline-offset: 2px;
+  }
+  /* surface scrollbar to match ink ground */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1916;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #5f5b54;
+    border: 3px solid #1a1916;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8a857b;
+  }
+}
+
+@layer components {
+  /* Blueprint/ruling-engine annotation label */
+  .plan-label {
+    @apply font-mono text-[11px] uppercase tracking-widest text-concrete-600;
+  }
+}
