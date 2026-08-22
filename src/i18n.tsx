@@ -57,7 +57,7 @@ const en: Dict = {
     description:
       'EverSolid Construction, a Belize construction company building custom homes, restaurants, hardware and hotels. Over 20 years of building in Belize.',
   },
-  nav: { work: 'What We Build', why: 'Why Choose Us', gallery: 'Gallery', contact: 'Contact', quote: 'Get a Quote' },
+  nav: { work: 'What We Build', why: 'Why Choose Us', gallery: 'Projects', contact: 'Contact', quote: 'Get a Quote' },
   hero: {
     tagline1: 'Building the Spaces',
     tagline2: 'Where Life Happens.',
@@ -77,8 +77,9 @@ const en: Dict = {
     residentialTitle: 'Residential',
     residentialDesc: 'Custom homes and renovations built to last generations',
     commercialTitle: 'Commercial',
-    commercialDesc: 'Restaurant · Hardware · Hotel',
+    commercialDesc: 'Supermarket · Restaurant · Hardware · Hotel',
     types: [
+      { title: 'Supermarket', desc: 'Aisles, cold storage, and checkouts built for high turnover.' },
       { title: 'Restaurant', desc: 'Kitchens, dining rooms, and front-of-house built for service.' },
       { title: 'Hardware', desc: 'Retail and storage spaces built for heavy stock and steady traffic.' },
       { title: 'Hotel', desc: 'Rooms, common areas, and resilience built for guests and climate.' },
@@ -107,7 +108,7 @@ const en: Dict = {
     ],
   },
   gallery: {
-    heading: 'From the Sites',
+    heading: 'Our Projects',
     lede: 'Work across Belize, photographed where it stands.',
   },
   cta: {
@@ -125,7 +126,7 @@ const es: Dict = {
     description:
       'EverSolid Construction, una empresa de construcción en Belice que construye casas personalizadas, restaurantes, ferreterías y hoteles. Más de 20 años construyendo en Belice.',
   },
-  nav: { work: 'Qué Construimos', why: 'Por Qué Elegirnos', gallery: 'Galería', contact: 'Contacto', quote: 'Cotizar' },
+  nav: { work: 'Qué Construimos', why: 'Por Qué Elegirnos', gallery: 'Proyectos', contact: 'Contacto', quote: 'Cotizar' },
   hero: {
     tagline1: 'Construimos los espacios',
     tagline2: 'donde sucede la vida.',
@@ -145,8 +146,9 @@ const es: Dict = {
     residentialTitle: 'Residencial',
     residentialDesc: 'Casas personalizadas y renovaciones hechas para durar generaciones',
     commercialTitle: 'Comercial',
-    commercialDesc: 'Restaurante · Ferretería · Hotel',
+    commercialDesc: 'Supermercado · Restaurante · Ferretería · Hotel',
     types: [
+      { title: 'Supermercado', desc: 'Góndolas, refrigeración y cajas preparadas para alto flujo y rotación.' },
       { title: 'Restaurante', desc: 'Cocinas, comedores y zonas frontales construidas para el servicio.' },
       { title: 'Ferretería', desc: 'Espacios comerciales y de almacén para inventario pesado y buen flujo.' },
       { title: 'Hotel', desc: 'Habitaciones, áreas comunes y resistencia para huéspedes y clima.' },
@@ -175,7 +177,7 @@ const es: Dict = {
     ],
   },
   gallery: {
-    heading: 'Desde las Obras',
+    heading: 'Nuestros Proyectos',
     lede: 'Trabajo en todo Belice, fotografiado donde se levanta.',
   },
   cta: {
@@ -193,7 +195,7 @@ const zhTW: Dict = {
     description:
       'EverSolid 建築，貝里斯建築公司，專營自宅、餐廳、五金與飯店工程，深耕貝里斯逾 20 年。',
   },
-  nav: { work: '我們的作品', why: '為何選擇我們', gallery: '圖庫', contact: '聯絡我們', quote: '索取報價' },
+  nav: { work: '我們的作品', why: '為何選擇我們', gallery: '專案', contact: '聯絡我們', quote: '索取報價' },
   hero: {
     tagline1: '打造生活',
     tagline2: '發生的空間。',
@@ -213,8 +215,9 @@ const zhTW: Dict = {
     residentialTitle: '住宅',
     residentialDesc: '自訂住宅與翻新工程，可傳世數代',
     commercialTitle: '商業',
-    commercialDesc: '餐廳 · 五金 · 飯店',
+    commercialDesc: '超市 · 餐廳 · 五金 · 飯店',
     types: [
+      { title: '超市', desc: '貨架、冷藏冷凍與收銀動線，為高週轉而生。' },
       { title: '餐廳', desc: '廚房、用餐區與店面前台，為服務而生。' },
       { title: '五金', desc: '為重型庫存與穩定客流打造的零售與倉儲空間。' },
       { title: '飯店', desc: '客房、公共區域與抗氣候韌性，招待旅客而建。' },
@@ -231,7 +234,7 @@ const zhTW: Dict = {
     ],
   },
   gallery: {
-    heading: '工地實況',
+    heading: '我們的專案',
     lede: '遍及貝里斯的工程，皆以現地照片記錄。',
   },
   cta: {
@@ -248,7 +251,7 @@ const zhCN: Dict = {
     title: 'EverSolid 建筑 — 打造生活发生的空间。',
     description: 'EverSolid 建筑，伯利兹建筑公司，专营自宅、餐厅、五金与酒店工程，深耕伯利兹逾 20 年。',
   },
-  nav: { work: '我们的作品', why: '为何选择我们', gallery: '图库', contact: '联系我们', quote: '索取报价' },
+  nav: { work: '我们的作品', why: '为何选择我们', gallery: '项目', contact: '联系我们', quote: '索取报价' },
   hero: {
     tagline1: '打造生活',
     tagline2: '发生的空间。',
@@ -268,8 +271,9 @@ const zhCN: Dict = {
     residentialTitle: '住宅',
     residentialDesc: '定制住宅与翻新工程，可传世数代',
     commercialTitle: '商业',
-    commercialDesc: '餐厅 · 五金 · 酒店',
+    commercialDesc: '超市 · 餐厅 · 五金 · 酒店',
     types: [
+      { title: '超市', desc: '货架、冷藏冷冻与收银动线，为高周转而生。' },
       { title: '餐厅', desc: '厨房、用餐区与店面前台，为服务而生。' },
       { title: '五金', desc: '为重型库存与稳定客流打造的零售与仓储空间。' },
       { title: '酒店', desc: '客房、公共区域与抗气候韧性，招待旅客而建。' },
@@ -286,7 +290,7 @@ const zhCN: Dict = {
     ],
   },
   gallery: {
-    heading: '工地实况',
+    heading: '我们的项目',
     lede: '遍及伯利兹的工程，皆以实地照片记录。',
   },
   cta: {

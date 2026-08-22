@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs'
+import { readdirSync, readFileSync, writeFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 
@@ -12,6 +12,22 @@ async function main() {
 
   const htmlPath = path.join(root, 'dist', 'index.html')
   let html = readFileSync(htmlPath, 'utf8')
+
+  // Inject a responsive hero preload. Vite hashes the emitted filenames, so
+  // resolve the real ones from dist/assets (matches the srcSet in Hero.tsx).
+  const assetsDir = path.join(root, 'dist', 'assets')
+  const find = (prefix) => readdirSync(assetsDir).find((f) => f.startsWith(prefix))
+  const mobile = find('hero-mobile-')
+  const full = find('hero-background-')
+  if (mobile && full) {
+    const link =
+      `<link rel="preload" as="image" href="/assets/${full}" ` +
+      `imagesrcset="/assets/${mobile} 900w, /assets/${full} 1600w" ` +
+      `imagesizes="100vw" fetchpriority="high">`
+    if (html.includes('</head>') && !html.includes('rel="preload" as="image"')) {
+      html = html.replace('</head>', `${link}\n</head>`)
+    }
+  }
 
   const appHTML = render()
 

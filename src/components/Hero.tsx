@@ -2,11 +2,14 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { useI18n } from '../i18n'
 import heroBackground from '../assets/hero-background.webp'
+import heroMobile from '../assets/hero-mobile.webp'
 
 // EverSolid brand photograph as the hero backdrop → a slow, near-static Ken
-// Burns zoom (1 → 1.06 over 20s).
+// Burns zoom (1 → 1.06 over 20s). Mobile loads the pre-generated 900w WebP
+// (scripts/optimize-hero.mjs) to cut LCP bytes; desktop keeps the full frame.
 const HERO = {
   src: heroBackground,
+  mobile: heroMobile,
   alt: 'EverSolid Construction site and work',
 }
 
@@ -64,7 +67,14 @@ export default function Hero() {
         ref={sceneRef}
         className="absolute inset-0 will-change-transform"
       >
-        <img src={HERO.src} alt={HERO.alt} className="h-full w-full object-cover" />
+        <img
+          src={HERO.src}
+          srcSet={`${HERO.mobile} 900w, ${HERO.src} 1600w`}
+          sizes="100vw"
+          fetchpriority="high"
+          alt={HERO.alt}
+          className="h-full w-full object-cover"
+        />
       </div>
 
       {/* directional dim overlay for text contrast (WCAG AA): deepest at the
