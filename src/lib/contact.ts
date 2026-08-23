@@ -1,5 +1,4 @@
 export const WHATSAPP_URL = 'https://wa.me/5016244333'
-export const WHATSAPP_DISPLAY = '+501 624-4333'
 export const PHONE_DISPLAY = '+501 624-4333'
 export const PHONE_TEL = 'tel:+5016244333'
 export const EMAIL = 'info@eversolidbz.com'

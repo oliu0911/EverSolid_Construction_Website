@@ -1,7 +1,6 @@
 import { useI18n } from '../i18n'
 import { WHATSAPP_URL, MAILTO_URL, PHONE_DISPLAY, PHONE_TEL, FACEBOOK_URL, INSTAGRAM_URL } from '../lib/contact'
-import { WhatsAppGlyph } from './Hero'
-import { FacebookGlyph, InstagramGlyph } from './Header'
+import { WhatsAppGlyph, FacebookGlyph, InstagramGlyph } from './icons'
 
 /** Closing CTA + site footer — dark sheet with the conversion actions. */
 export default function FooterCTA() {
@@ -20,7 +19,7 @@ export default function FooterCTA() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 bg-rebar-dark px-6 py-3.5 font-mono text-xs font-semibold tracking-widest text-paper transition-colors hover:bg-rebar"
+              className="inline-flex items-center justify-center gap-2.5 bg-rebar-dark px-6 py-3.5 font-mono text-xs font-semibold tracking-widest text-paper transition-colors hover:bg-rebar hover:text-ink"
             >
               <WhatsAppGlyph />
               {t.cta.primary}

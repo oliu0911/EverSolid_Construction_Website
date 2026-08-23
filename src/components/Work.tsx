@@ -48,7 +48,7 @@ export default function Work() {
         </div>
 
         {/* building-type plates — four across on desktop, two-up below */}
-        <div className="mt-14 grid gap-px border border-ink/20 bg-ink/15 sm:grid-cols-2 lg:grid-cols-4">
+        <div data-reveal-group className="mt-14 grid gap-px border border-ink/20 bg-ink/15 sm:grid-cols-2 lg:grid-cols-4">
           {t.work.types.map((ty, i) => (
             <div key={i} data-reveal className="bg-paper p-6 md:p-7">
               <span aria-hidden="true" className="inline-block h-3 w-3 border border-rebar" />

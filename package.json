@@ -6,7 +6,7 @@
   "description": "EverSolid Construction (Belize) — single-page corporate site. SSG static build.",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/optimize-hero.mjs",
+    "prebuild": "node scripts/optimize-hero.mjs && node scripts/optimize-gallery.mjs",
     "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview"
   },

@@ -9,8 +9,10 @@ export default function SectionHead({
   tag?: string
 }) {
   return (
-    <header data-reveal className="border-t-2 border-ink/90 pt-6 md:pt-8">
-      <div className="flex items-baseline justify-between gap-6">
+    <header data-reveal>
+      {/* the datum — an explicit ruler hairline so motion can draw it across */}
+      <div data-rule aria-hidden className="h-0.5 w-full bg-ink/90" />
+      <div className="mt-6 flex items-baseline justify-between gap-6 md:mt-8">
         <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl">
           {heading}
         </h2>

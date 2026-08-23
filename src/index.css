@@ -40,4 +40,21 @@
   .plan-label {
     @apply font-mono text-[11px] uppercase tracking-widest text-concrete-600;
   }
+
+  /* Overlay widgets (locale dropdown, mobile menu) acknowledge opening with a
+     quick settle. Immediate feedback class — motion-reduce drops the travel. */
+  .animate-menu-in {
+    animation: menu-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

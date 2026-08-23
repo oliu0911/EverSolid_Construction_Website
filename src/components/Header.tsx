@@ -1,13 +1,22 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { LOCALES, LOCALE_LABEL, useI18n, type Locale } from '../i18n'
 import { scrollToId } from '../lib/scroll'
 import { WHATSAPP_URL, FACEBOOK_URL, INSTAGRAM_URL } from '../lib/contact'
+import { WhatsAppGlyph, FacebookGlyph, InstagramGlyph } from './icons'
 import navLogo from '../assets/nav-logo-transparent.png'
 
 export default function Header() {
   const { t, locale, setLocale } = useI18n()
   const [open, setOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  // Locale menu — trigger, panel, and per-option refs for roving focus.
+  const localeTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const localeMenuRef = useRef<HTMLUListElement | null>(null)
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([])
+  // Mobile menu — the hamburger and the panel it reveals.
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const mobileNavRef = useRef<HTMLElement | null>(null)
 
   // Transparent nav over the dark Hero until the visitor scrolls past ~80vh of
   // the hero, then it drops onto the paper view. Initial state is "not scrolled"
@@ -21,6 +30,80 @@ export default function Header() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Locale menu — close on outside pointerdown, Escape closes and returns
+  // focus to the trigger. On open, roving focus lands on the selected option.
+  useEffect(() => {
+    if (!open) return
+    optionRefs.current[LOCALES.indexOf(locale)]?.focus()
+    const onPointerDown = (e: PointerEvent) => {
+      const t = e.target as Node
+      if (
+        localeMenuRef.current?.contains(t) ||
+        localeTriggerRef.current?.contains(t)
+      )
+        return
+      setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setOpen(false)
+        localeTriggerRef.current?.focus()
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open, locale])
+
+  // Mobile menu — close on Escape (returning focus to the toggle), on outside
+  // click, and whenever the viewport grows to desktop where it is redundant.
+  useEffect(() => {
+    if (!menuOpen) return
+    const onPointerDown = (e: PointerEvent) => {
+      const t = e.target as Node
+      if (
+        mobileNavRef.current?.contains(t) ||
+        menuTriggerRef.current?.contains(t)
+      )
+        return
+      setMenuOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setMenuOpen(false)
+        menuTriggerRef.current?.focus()
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen])
+
+  // Collapse the mobile menu when the layout returns to desktop navigation.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const onChange = () => {
+      if (mq.matches) setMenuOpen(false)
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  // Roving-focus movement for the locale listbox/menu.
+  const moveFocus = (delta: number) => {
+    const i = optionRefs.current.indexOf(document.activeElement as HTMLButtonElement)
+    const next = (i + delta + LOCALES.length) % LOCALES.length
+    optionRefs.current[next]?.focus()
+  }
 
   const nav: { id: string; label: string }[] = [
     { id: '#work', label: t.nav.work },
@@ -101,30 +184,61 @@ export default function Header() {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-2 bg-rebar px-4 py-1.5 font-mono text-xs font-semibold tracking-widest uppercase text-ink transition-colors hover:bg-rebar-dark hover:text-paper md:inline-flex"
+            className="hidden items-center gap-2 bg-rebar px-4 py-1.5 font-mono text-xs font-semibold tracking-widest uppercase text-ink transition-colors hover:bg-rebar-300 md:inline-flex"
           >
             <WhatsAppGlyph />
             <span>{t.nav.quote}</span>
           </a>
 
-          {/* language switch */}
+          {/* language switch — a compliant menu widget: focusable options with
+              roving focus, Escape to close (restoring focus), and full keyboard
+              traversal (arrows + Home/End). */}
           <div className="relative">
             <button
+              ref={localeTriggerRef}
               onClick={() => setOpen((v) => !v)}
-              aria-haspopup="listbox"
+              aria-haspopup="menu"
               aria-expanded={open}
+              aria-controls="locale-menu"
+              aria-label="Change language"
               className={navText}
             >
               {LOCALE_LABEL[locale]}
               <span aria-hidden="true" className={open ? 'rotate-180' : ''}>▾</span>
             </button>
             {open && (
-              <ul role="listbox" className="absolute right-0 top-full mt-2 w-28 border border-ink/15 bg-paper text-ink shadow-lg">
-                {LOCALES.map((l) => (
-                  <li key={l}>
+              <ul
+                id="locale-menu"
+                ref={localeMenuRef}
+                role="menu"
+                aria-label="Language"
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault()
+                    moveFocus(1)
+                  } else if (e.key === 'ArrowUp') {
+                    e.preventDefault()
+                    moveFocus(-1)
+                  } else if (e.key === 'Home') {
+                    e.preventDefault()
+                    optionRefs.current[0]?.focus()
+                  } else if (e.key === 'End') {
+                    e.preventDefault()
+                    optionRefs.current[LOCALES.length - 1]?.focus()
+                  } else if (e.key === 'Tab') {
+                    setOpen(false)
+                  }
+                }}
+                className="animate-menu-in motion-reduce:animate-none absolute right-0 top-full mt-2 w-28 border border-ink/15 bg-paper text-ink"
+              >
+                {LOCALES.map((l, i) => (
+                  <li key={l} role="none">
                     <button
-                      role="option"
-                      aria-selected={l === locale}
+                      ref={(el) => {
+                        optionRefs.current[i] = el
+                      }}
+                      role="menuitemradio"
+                      aria-checked={l === locale}
                       onClick={() => pickLocale(l)}
                       className={`w-full px-3 py-2 text-left font-mono text-xs tracking-widest hover:bg-rebar hover:text-paper ${l === locale ? 'text-rebar' : ''}`}
                     >
@@ -138,9 +252,11 @@ export default function Header() {
 
           {/* mobile menu */}
           <button
+            ref={menuTriggerRef}
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
             className={`grid h-9 w-9 place-items-center border transition-colors md:hidden ${
               scrolled ? 'border-ink/25' : 'border-paper/40'
             }`}
@@ -156,7 +272,7 @@ export default function Header() {
 
       {/* mobile nav */}
       {menuOpen && (
-        <nav className="border-t border-ink/10 bg-paper px-6 py-4 text-ink md:hidden" aria-label="Mobile">
+        <nav id="mobile-nav" ref={mobileNavRef} className="animate-menu-in motion-reduce:animate-none border-t border-ink/10 bg-paper px-6 py-4 text-ink md:hidden" aria-label="Mobile">
           <ul className="space-y-3">
             {nav.map((n) => (
               <li key={n.id}>
@@ -166,7 +282,7 @@ export default function Header() {
               </li>
             ))}
             <li className="pt-2">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-rebar px-4 py-2 text-ink hover:bg-rebar-dark">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-rebar px-4 py-2 text-ink hover:bg-rebar-300">
                 <WhatsAppGlyph />
                 <span className="font-mono text-xs font-semibold tracking-wide">WhatsApp</span>
               </a>
@@ -192,29 +308,5 @@ export default function Header() {
         </nav>
       )}
     </header>
-  )
-}
-
-export function WhatsAppGlyph() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 1.8A8.2 8.2 0 0 1 20.2 12 8.2 8.2 0 0 1 12 20.2a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.7-.2-.3A8.2 8.2 0 0 1 12 3.8Zm3 9.9-.1-.1c-.3-.2-1.5-.8-1.8-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.2-3.9c-.1-.2 0-.4.1-.5l.7-.8c.2-.2.2-.4.3-.7 0-.3-.1-.5-.2-.7 0-.1-.9-2.3-1.2-3-.2-.5-.5-.5-.7-.5h-.5a1 1 0 0 0-.8.4c-.3.3-1 1-1 2.4a6.5 6.5 0 0 0 1.4 3.9 8.9 8.9 0 0 0 3.5 2.6 6.6 6.6 0 0 0 2.2.5 2.6 2.6 0 0 0 1.8-.9c.2-.3.4-.6.4-.9v-.4Z" />
-    </svg>
-  )
-}
-
-export function FacebookGlyph() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z" />
-    </svg>
-  )
-}
-
-export function InstagramGlyph() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2.2c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9a3.2 3.2 0 0 1-.8 1.2 3.2 3.2 0 0 1-1.2.8c-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4a3.2 3.2 0 0 1-1.2-.8 3.2 3.2 0 0 1-.8-1.2c-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.1-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4C9 2.2 9.3 2.2 12 2.2Zm0 1.8c-2.7 0-3 0-4 .1-.9 0-1.3.2-1.6.4-.4.2-.6.3-.9.7-.3.3-.5.6-.7 1-.2.3-.3.7-.4 1.5-.1 1.1-.1 1.4-.1 4.1s0 3 .1 4.1c0 .9.2 1.3.4 1.6.2.4.3.6.7.9.3.3.6.5 1 .7.3.2.7.3 1.5.4 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c.9 0 1.3-.2 1.6-.4.4-.2.6-.3.9-.7.3-.3.5-.6.7-1 .2-.3.3-.7.4-1.5.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c0-.9-.2-1.3-.4-1.6a2.2 2.2 0 0 0-.7-.9 2.2 2.2 0 0 0-1-.7c-.3-.2-.7-.3-1.5-.4-1-.1-1.3-.1-4.1-.1Zm0 3.1a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Zm5.2-3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" />
-    </svg>
   )
 }

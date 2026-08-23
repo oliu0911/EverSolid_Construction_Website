@@ -15,6 +15,7 @@ export default {
           400: '#A9A49A',
           500: '#8A857B',
           600: '#5F5B54',
+          700: '#4A4640',
         },
         // Rebar safety-orange is the single accent
         rebar: {

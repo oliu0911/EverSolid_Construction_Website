@@ -101,18 +101,10 @@ export default function Hero() {
           <div className="h-px flex-1 border-t border-paper/20" />
           <span className="flex items-center gap-3 font-mono text-[11px] tracking-[0.25em] text-concrete-400 uppercase">
             {t.hero.scroll}
-            <span className="inline-block h-3 w-px animate-pulse bg-rebar" />
+            <span className="inline-block h-3 w-px animate-pulse bg-rebar motion-reduce:animate-none" />
           </span>
         </div>
       </div>
     </section>
-  )
-}
-
-export function WhatsAppGlyph() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 1.8A8.2 8.2 0 0 1 20.2 12 8.2 8.2 0 0 1 12 20.2a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.7-.2-.3A8.2 8.2 0 0 1 12 3.8Zm3 9.9-.1-.1c-.3-.2-1.5-.8-1.8-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.2-3.9c-.1-.2 0-.4.1-.5l.7-.8c.2-.2.2-.4.3-.7 0-.3-.1-.5-.2-.7 0-.1-.9-2.3-1.2-3-.2-.5-.5-.5-.7-.5h-.5a1 1 0 0 0-.8.4c-.3.3-1 1-1 2.4a6.5 6.5 0 0 0 1.4 3.9 8.9 8.9 0 0 0 3.5 2.6 6.6 6.6 0 0 0 2.2.5 2.6 2.6 0 0 0 1.8-.9c.2-.3.4-.6.4-.9v-.4Z" />
-    </svg>
   )
 }

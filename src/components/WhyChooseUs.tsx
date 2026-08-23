@@ -46,7 +46,7 @@ export default function WhyChooseUs() {
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
         <SectionHead heading={t.why.heading} lede={t.why.lede} tag="SECTION 03 · WHY" />
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6">
+        <div data-reveal-group className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6">
           {t.why.items.map((item, i) => (
             <div key={i} data-reveal className="flex gap-5 border border-ink/15 bg-paper p-6 sm:p-7">
               <div className="grid h-12 w-12 shrink-0 place-items-center border border-ink/25 text-rebar-dark">

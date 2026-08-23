@@ -21,13 +21,11 @@ export interface WorkType {
 
 export interface Dict {
   meta: { title: string; description: string }
-  nav: { work: string; why: string; gallery: string; contact: string; quote: string }
+  nav: { skip: string; work: string; why: string; gallery: string; contact: string; quote: string }
   hero: {
     tagline1: string
     tagline2: string
     sub: string
-    ctaPrimary: string
-    ctaSecondary: string
     scroll: string
   }
   intro: { heading: string; lead: string; body: string }
@@ -57,13 +55,11 @@ const en: Dict = {
     description:
       'EverSolid Construction, a Belize construction company building custom homes, restaurants, hardware and hotels. Over 20 years of building in Belize.',
   },
-  nav: { work: 'What We Build', why: 'Why Choose Us', gallery: 'Projects', contact: 'Contact', quote: 'Get a Quote' },
+  nav: { skip: 'Skip to content', work: 'What We Build', why: 'Why Choose Us', gallery: 'Projects', contact: 'Contact', quote: 'Get a Quote' },
   hero: {
     tagline1: 'Building the Spaces',
     tagline2: 'Where Life Happens.',
     sub: 'Belize construction, built on twenty years of proven work.',
-    ctaPrimary: 'Start a project on WhatsApp',
-    ctaSecondary: 'Email us',
     scroll: 'Scroll to explore',
   },
   intro: {
@@ -126,13 +122,11 @@ const es: Dict = {
     description:
       'EverSolid Construction, una empresa de construcción en Belice que construye casas personalizadas, restaurantes, ferreterías y hoteles. Más de 20 años construyendo en Belice.',
   },
-  nav: { work: 'Qué Construimos', why: 'Por Qué Elegirnos', gallery: 'Proyectos', contact: 'Contacto', quote: 'Cotizar' },
+  nav: { skip: 'Saltar al contenido', work: 'Qué Construimos', why: 'Por Qué Elegirnos', gallery: 'Proyectos', contact: 'Contacto', quote: 'Cotizar' },
   hero: {
     tagline1: 'Construimos los espacios',
     tagline2: 'donde sucede la vida.',
     sub: 'Construcción en Belice, respaldada por veinte años de obra comprobada.',
-    ctaPrimary: 'Iniciar un proyecto por WhatsApp',
-    ctaSecondary: 'Escríbenos',
     scroll: 'Desplázate para explorar',
   },
   intro: {
@@ -195,13 +189,11 @@ const zhTW: Dict = {
     description:
       'EverSolid 建築，貝里斯建築公司，專營自宅、餐廳、五金與飯店工程，深耕貝里斯逾 20 年。',
   },
-  nav: { work: '我們的作品', why: '為何選擇我們', gallery: '專案', contact: '聯絡我們', quote: '索取報價' },
+  nav: { skip: '跳至內容', work: '我們的作品', why: '為何選擇我們', gallery: '專案', contact: '聯絡我們', quote: '索取報價' },
   hero: {
     tagline1: '打造生活',
     tagline2: '發生的空間。',
     sub: '貝里斯建築，20 年實績為證。',
-    ctaPrimary: '用 WhatsApp 展開專案',
-    ctaSecondary: 'Email 聯絡我們',
     scroll: '向下捲動探索',
   },
   intro: {
@@ -251,13 +243,11 @@ const zhCN: Dict = {
     title: 'EverSolid 建筑 — 打造生活发生的空间。',
     description: 'EverSolid 建筑，伯利兹建筑公司，专营自宅、餐厅、五金与酒店工程，深耕伯利兹逾 20 年。',
   },
-  nav: { work: '我们的作品', why: '为何选择我们', gallery: '项目', contact: '联系我们', quote: '索取报价' },
+  nav: { skip: '跳至内容', work: '我们的作品', why: '为何选择我们', gallery: '项目', contact: '联系我们', quote: '索取报价' },
   hero: {
     tagline1: '打造生活',
     tagline2: '发生的空间。',
     sub: '伯利兹建筑，20 年实绩为证。',
-    ctaPrimary: '用 WhatsApp 展开项目',
-    ctaSecondary: 'Email 联系我们',
     scroll: '向下滚动探索',
   },
   intro: {
@@ -335,6 +325,26 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       /* ignore */
     }
   }
+
+  // Keep the document's language + SEO meta in sync with the active locale.
+  // Runs post-hydration only — SSR always renders `en`, so setting these here
+  // (never during render) leaves the static default intact and upgrades it
+  // once JS is live. Screen readers and search engines then read the right
+  // language and title instead of the English default.
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const dict = DICTS[locale]
+    const setMeta = (selector: string, content: string) => {
+      document.querySelector(selector)?.setAttribute('content', content)
+    }
+    document.documentElement.lang = locale
+    document.title = dict.meta.title
+    setMeta('meta[name="description"]', dict.meta.description)
+    setMeta('meta[property="og:title"]', dict.meta.title)
+    setMeta('meta[property="og:description"]', dict.meta.description)
+    setMeta('meta[name="twitter:title"]', dict.meta.title)
+    setMeta('meta[name="twitter:description"]', dict.meta.description)
+  }, [locale])
 
   return (
     <I18nContext.Provider value={{ locale, t: DICTS[locale], setLocale }}>
