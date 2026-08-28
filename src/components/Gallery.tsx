@@ -1,5 +1,7 @@
 import SectionHead from './SectionHead'
 import { useI18n } from '../i18n'
+import { FACEBOOK_URL, INSTAGRAM_URL } from '../lib/contact'
+import { FacebookGlyph, InstagramGlyph } from './icons'
 
 import cayeCaulker from '../assets/gallery/Caye Caulker.jpeg'
 import sanPedro from '../assets/gallery/San Pedro.jpeg'
@@ -90,6 +92,34 @@ export default function Gallery() {
           {LANDSCAPES.map((shot, i) => (
             <Plate key={i} shot={shot} ratio="aspect-[4/3]" />
           ))}
+        </div>
+
+        {/* follow-on socials — "Explore more on:" leading the official FB/IG glyphs */}
+        <div
+          data-reveal
+          className="mt-14 flex flex-wrap items-center justify-center gap-x-4 gap-y-4 border-t border-ink/15 pt-8"
+        >
+          <span className="plan-label !text-[11px] !normal-case">{t.gallery.exploreMore}</span>
+          <span className="flex items-center gap-2.5">
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="grid h-10 w-10 place-items-center border border-ink/20 text-ink transition-colors hover:border-rebar hover:text-rebar"
+            >
+              <FacebookGlyph size={20} />
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="grid h-10 w-10 place-items-center border border-ink/20 text-ink transition-colors hover:border-rebar hover:text-rebar"
+            >
+              <InstagramGlyph size={20} />
+            </a>
+          </span>
         </div>
       </div>
     </section>

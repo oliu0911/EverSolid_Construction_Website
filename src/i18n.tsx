@@ -39,7 +39,7 @@ export interface Dict {
     types: WorkType[]
   }
   why: { heading: string; lede: string; items: WhyItem[] }
-  gallery: { heading: string; lede: string }
+  gallery: { heading: string; lede: string; exploreMore: string }
   cta: {
     heading: string
     body: string
@@ -51,7 +51,7 @@ export interface Dict {
 
 const en: Dict = {
   meta: {
-    title: 'EverSolid Construction — Building the Spaces Where Life Happens.',
+    title: 'EverSolid Construction | Belize Construction company | Build Your Custom Home or Commercial Space.',
     description:
       'EverSolid Construction, a Belize construction company building custom homes, restaurants, hardware and hotels. Over 20 years of building in Belize.',
   },
@@ -106,6 +106,7 @@ const en: Dict = {
   gallery: {
     heading: 'Our Projects',
     lede: 'Our work across Belize.',
+    exploreMore: 'Explore more on',
   },
   cta: {
     heading: 'The space is yours to build.',
@@ -118,7 +119,7 @@ const en: Dict = {
 
 const es: Dict = {
   meta: {
-    title: 'EverSolid Construction — Construimos los espacios donde sucede la vida.',
+    title: 'EverSolid Construction | Empresa de construcción en Belice | Construye tu casa personalizada o espacio comercial.',
     description:
       'EverSolid Construction, una empresa de construcción en Belice que construye casas personalizadas, restaurantes, ferreterías y hoteles. Más de 20 años construyendo en Belice.',
   },
@@ -173,6 +174,7 @@ const es: Dict = {
   gallery: {
     heading: 'Nuestros Proyectos',
     lede: 'Nuestra obra en todo Belice.',
+    exploreMore: 'Explora más en',
   },
   cta: {
     heading: 'El espacio es tuyo por construir.',
@@ -185,7 +187,7 @@ const es: Dict = {
 
 const zhTW: Dict = {
   meta: {
-    title: 'EverSolid 建築 — 打造生活發生的空間。',
+    title: 'EverSolid 建築 | 貝里斯建築公司 | 打造您的自訂住宅或商業空間。',
     description:
       'EverSolid 建築，貝里斯建築公司，專營自宅、餐廳、五金與飯店工程，深耕貝里斯逾 20 年。',
   },
@@ -228,6 +230,7 @@ const zhTW: Dict = {
   gallery: {
     heading: '我們的專案',
     lede: '我們在貝里斯的作品。',
+    exploreMore: '更多內容，盡在',
   },
   cta: {
     heading: '空間，等待你來建造。',
@@ -240,7 +243,7 @@ const zhTW: Dict = {
 
 const zhCN: Dict = {
   meta: {
-    title: 'EverSolid 建筑 — 打造生活发生的空间。',
+    title: 'EverSolid 建筑 | 伯利兹建筑公司 | 打造您的定制住宅或商业空间。',
     description: 'EverSolid 建筑，伯利兹建筑公司，专营自宅、餐厅、五金与酒店工程，深耕伯利兹逾 20 年。',
   },
   nav: { skip: '跳至内容', work: '我们的作品', why: '为何选择我们', gallery: '项目', contact: '联系我们', quote: '索取报价' },
@@ -282,6 +285,7 @@ const zhCN: Dict = {
   gallery: {
     heading: '我们的项目',
     lede: '我们在伯利兹的作品。',
+    exploreMore: '更多内容，尽在',
   },
   cta: {
     heading: '空间，等待你来建造。',
